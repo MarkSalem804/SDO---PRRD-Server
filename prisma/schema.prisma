@@ -26,23 +26,34 @@ model user {
 
 // for the cards in data overview section
 model dataContext {
-  id        Int      @id @default(autoincrement())
-  title     String
-  createdAt DateTime @default(now())
+  id         Int       @id @unique @default(autoincrement())
+  title      String
+  section    section?  @relation(fields: [sectionId], references: [id])
+  sectionId  Int?
+  schoolYear String?
+  createdAt  DateTime  @default(now())
+  content    content[]
 }
 
 //for the title and description of the section (e.g., Data Overview, Education and Planning, etc.)
 model section {
-  id           Int      @id @default(autoincrement())
+  id           Int           @id @unique @default(autoincrement())
   sectionTitle String
-  descriptiom  String
-  createdAt    DateTime @default(now())
+  description  String
+  createdAt    DateTime      @default(now())
+  content      content[]
+  dataContext  dataContext[]
 }
 
-//for the contents of the a section
+//for the contents of the section
 model content {
-  id        Int      @id @default(autoincrement())
-  title     String
-  link      String
-  createdAt DateTime @default(now())
+  id         Int          @id @default(autoincrement())
+  title      dataContext? @relation(fields: [titleId], references: [id])
+  titleId    Int?
+  link       String
+  imageUrl   String?
+  schoolYear String?
+  createdAt  DateTime     @default(now())
+  section    section?     @relation(fields: [sectionId], references: [id])
+  sectionId  Int?
 }
