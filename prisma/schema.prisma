@@ -57,3 +57,13 @@ model content {
   section    section?     @relation(fields: [sectionId], references: [id])
   sectionId  Int?
 }
+
+model contributors {
+  id        Int      @id @default(autoincrement())
+  imageUrl  String?
+  position  String?
+  name      String?
+  socials   Json?
+  category  String?
+  createdAt DateTime @default(now())
+}

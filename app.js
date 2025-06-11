@@ -4,11 +4,13 @@ const cookieParser = require("cookie-parser");
 const Routes = require("./src/Middlewares/routes-conf");
 const clear = require("clear");
 const dotenv = require("dotenv");
-const cors = require("cors");
+const fs = require("fs");
+const https = require("https");
 
 dotenv.config();
 
 const app = express();
+const cors = require("cors");
 const corsOptions = require("./src/Middlewares/CORS-conf/cors-options");
 const credentials = require("./src/Middlewares/Cors-conf/credentials");
 const prisma = new PrismaClient();
@@ -28,6 +30,23 @@ app.use((req, res, next) => {
 });
 
 Routes(app, prisma);
+
+// const options = {
+//   key: fs.readFileSync(
+//     "/etc/letsencrypt/live/tripticket.depedimuscity.com/privkey.pem"
+//   ),
+//   cert: fs.readFileSync(
+//     "/etc/letsencrypt/live/tripticket.depedimuscity.com/fullchain.pem"
+//   ),
+// };
+
+// const server = https.createServer(options, app);
+
+// server.listen(port, () => {
+//   clear(); // Clear the terminal when the server starts
+//   console.log(`Server running on port ${port}`);
+//   console.log(`Environment: ${process.env.NODE_ENV}`);
+// });
 
 app.use((req, res) => {
   res.status(404).send("Route not found");

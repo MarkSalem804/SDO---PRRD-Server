@@ -84,11 +84,34 @@ async function getAllContent() {
   }
 }
 
+async function addContributors(data) {
+  try {
+    const contributorData = await onelinkData.addContributors(data);
+    return contributorData;
+  } catch (error) {
+    console.error("Error adding contributor:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+async function getAllContributors() {
+  try {
+    const contributors = await onelinkData.getAllContributors();
+    return contributors;
+  } catch (error) {
+    console.error("Error in getAllContributors service:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   getAllContent,
   getAllContext,
   getAllSection,
+  getAllContributors,
   addDataContext,
   addSection,
   addContent,
+  addContributors,
+  getAllContributors,
 };

@@ -135,10 +135,36 @@ async function getAllContents() {
   }
 }
 
+async function addContributors(data) {
+  try {
+    const contributors = await prisma.contributors.create({ data });
+    return contributors;
+  } catch (error) {
+    console.error("Error adding contributors", error);
+    return { success: false, error: error.message };
+  }
+}
+
+async function getAllContributors() {
+  try {
+    const contributors = await prisma.contributors.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+    return contributors;
+  } catch (error) {
+    console.error("Error in getAllContributors", error);
+    throw error;
+  }
+}
+
 module.exports = {
   getAllSections,
   getAllContexts,
   getAllContents,
+  getAllContributors,
+  addContributors,
   createDataContext,
   createSection,
   addContentToContext,
